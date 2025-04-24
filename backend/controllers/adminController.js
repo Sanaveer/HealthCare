@@ -1,5 +1,5 @@
 import validator from 'validator'
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'; 
 import {v2 as cloudinary} from 'cloudinary'
 import doctorModel from '../models/doctorModel.js'
 import jwt from 'jsonwebtoken'
@@ -25,8 +25,11 @@ const  addDoctor = async (req,res) => {
         return res.json({success:false,message:"Please enter a strong password"})  
     }
 
-    const salt = await bcrypt.genSalt(10)
-    const hashedPassword = await bcrypt.hash(password, salt)
+    const bcrypt = require('bcryptjs'); // use only this at the top
+
+const salt = await bcrypt.genSalt(10);
+const hashedPassword = await bcrypt.hash(password, salt);
+
 
     const imageUpload = await cloudinary.uploader.upload(imageFile.path,{resource_type:"image"})
     const imageUrl = imageUpload.secure_url
